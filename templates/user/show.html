@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}
+用户展示
+{% endblock %}
+
+{% block body %}
+
+<table class="table table-hover">
+    <tr>
+        <td>序号</td>
+        <td>用户名</td>
+        <td>手机号码</td>
+        <td>注册时间</td>
+        <td>操作</td>
+    </tr>
+{% for user in users %}
+    <tr>
+        <td>{{ forloop.counter }}</td>
+        <td>{{ user.username }}</td>
+        <td>{{ user.phone | default:'未注册' }}</td>
+        <td>{{ user.addtime }}</td>
+        <td>
+            <a href="javascript:0;" class="del" tag="{{ user.id }}">删除</a>
+            <a href="{% url 'user:update' %}?id={{ user.id }}">修改</a>
+        </td>
+    </tr>
+{% endfor %}
+</table>
+
+{% endblock %}
+
+
+{% block myjs %}
+    <script>
+        $('.del').click(function(){
+        //当用户点击确定的时候会返回true
+            var flag = confirm("确定删除此用户么？");
+            var id = $(this).attr("tag")
+            if(flag){
+                location.href = "{% url 'user:delete' %}?id="+id;
+            }
+        })
+    </script>
+{% endblock %}

@@ -1,0 +1,12 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/vcs.xml
+/modules.xml
+/misc.xml
+/djangoFirst.iml
+/inspectionProfiles
+../__pycache__
+./db.sqlite3
+../±Ê¼Ç
+../static

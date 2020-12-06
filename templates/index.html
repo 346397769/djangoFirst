@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block body %}
+
+
+<div class="page-header">
+  <h1 align="center" >基于大数据 </h1>
+    <h2 align="center" >公立医院绩效智能分析系统 </h2>
+</div>
+<div class="row">
+<div class="container" style="margin-top: 5%">
+   <div class="jumbotron">
+        <p>当代社会，随着医院规模的扩大，信息化成度的逐渐提高，如何将管理信息系统与临床信息系统协同发展，创新医疗服务的模式，从而全面改善医疗卫生机构的服务能力和水平，成为我们面临的新的问题。
+            在医院管理中，医院信息系统(HIS)起着越来越重要的作用，医疗卫生管理对信息系统的要求也越来越高，新医改将医疗卫生信息化建设确定为医疗卫生改革的重要支柱之一。
+            对公立医院绩效分析尤为重要，本系统运用大数据与智能分析相结合，为医院提供正确的决策分析。
+        </p>
+      </p>
+   </div>
+</div>
+</div>
+
+<div align="center">
+  <a  class="btn btn-default" href="{% url 'input' %}">数据录入</a>
+  <a  class="btn btn-default">智能分析</a>
+  <a  class="btn btn-default">信息查询</a>
+  <a  class="btn btn-default">HIS数据直连</a>
+  <a  href="http://www.baidu.com" class="btn btn-default">数据导入</a>
+</div>
+
+
+{% endblock %}
