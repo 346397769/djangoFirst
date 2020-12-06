@@ -15,7 +15,9 @@ Including another URLconf
 """
 from django.urls import path, include
 from . import views
-
+app_name = 'hr'
 urlpatterns = [
-    path('show/', views.show, name="show")
+    path('show/', views.show, name="show"),
+    path('search/', views.search, name="search"),
+    path('update/', views.update, name="update")
 ]

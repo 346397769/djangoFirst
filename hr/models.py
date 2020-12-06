@@ -37,7 +37,7 @@ class Staff(models.Model):
     department = models.ForeignKey('Department', on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.username
+        return self.name
 
     class Meta:
         db_table = 'stuff'
@@ -51,7 +51,7 @@ class Occupation(models.Model):
     ocu_name = models.CharField(max_length=20, null=False)
 
     def __str__(self):
-        return self.pro_name
+        return self.ocu_name
 
     class Meta:
         db_table = 'occupation'

@@ -1,45 +1,58 @@
 {% extends "base.html" %}
 {% block title %}
-员工展示
+    员工展示
 {% endblock %}
 
 {% block body %}
 
-<table class="table table-hover">
-    <tr>
-        <td>序号</td>
-        <td>姓名</td>
-        <td>身份证</td>
-        <td>生日</td>
-        <td>操作</td>
-    </tr>
-{% for staff in staffs %}
-    <tr>
-        <td>{{ forloop.counter }}</td>
-        <td>{{ staff.name }}</td>
-        <td>{{ staff.id_num | default:'未注册' }}</td>
-        <td>{{ staff.birthday }}</td>
-        <td>
-            <a href="{% url 'user:update' %}?id={{ staff.id }}">详情</a>
-            <a href="javascript:0;" class="del" tag="{{ staff.id }}">删除</a>
-            <a href="{% url 'user:update' %}?id={{ staff.id }}">修改</a>
-        </td>
-    </tr>
-{% endfor %}
-</table>
+    <form class="form-inline" method="post" action="{% url 'hr:search' %}">
+        {% csrf_token %}
+        <div class="form-group">
+            <div class="input-group">
+                <input id="hr_search_input" name="name" type="text" class="form-control"  placeholder="员工姓名">
+            </div>
+        </div>
+{#        <button id="hr_search_btn" type="button" class="btn btn-primary">搜索</button>#}
+    <button id="hr_search_btn" type="submit" class="btn btn-primary">搜索</button>
+    </form>
+
+    <table class="table table-hover">
+        <tr>
+            <td>序号</td>
+            <td>姓名</td>
+            <td>身份证</td>
+            <td>生日</td>
+            <td>操作</td>
+        </tr>
+        {% for staff in staffs %}
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ staff.name }}</td>
+                <td>{{ staff.id_num | default:'未注册' }}</td>
+                <td>{{ staff.birthday }}</td>
+                <td>
+                    <a href="{% url 'user:update' %}?id={{ staff.id }}">详情</a>
+                    <a href="javascript:0;" class="del" tag="{{ staff.id }}">删除</a>
+                    <a href="{% url 'hr:update' %}?id={{ staff.id }}">修改</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 
 {% endblock %}
 
 
 {% block myjs %}
-{#    <script>#}
-{#        $('.del').click(function(){#}
-{#        //当用户点击确定的时候会返回true#}
-{#            var flag = confirm("确定删除此用户么？");#}
-{#            var id = $(this).attr("tag")#}
-{#            if(flag){#}
-{#                location.href = "{% url 'user:delete' %}?id="+id;#}
-{#            }#}
-{#        })#}
-{#    </script>#}
+    <script>
+
+        {#$.ajaxSetup({#}
+        {#    data: {csrfmiddlewaretoken: '{{ csrf_token }}'},#}
+        {# }); #}
+        {#$('#hr_search_btn').click(function () {#}
+        {#    var name = $('#hr_search_input').val()#}
+        {#    $.post("{% url 'hr:search' %}", {name: name}, function (data) {#}
+        {#        console.log(data)#}
+        {#    })#}
+        {#  })#}
+    </script>
 {% endblock %}
