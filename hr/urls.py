@@ -19,5 +19,7 @@ app_name = 'hr'
 urlpatterns = [
     path('show/', views.show, name="show"),
     path('search/', views.search, name="search"),
-    path('update/', views.update, name="update")
+    path('update/', views.update, name="update"),
+    path('detail/', views.detail, name="detail"),
+    path('add/', views.add, name="add")
 ]
