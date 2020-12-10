@@ -1,8 +1,8 @@
 import hashlib
 
+from django.contrib.auth.hashers import make_password, check_password
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-
+from django.http import HttpResponse, JsonResponse
 
 # Create your views here.
 from django.urls import reverse
@@ -37,21 +37,20 @@ def login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        if username and password:
-            # 查数据库验证
-            user = User.objects.filter(username=username).first()
-            password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-            if user:
-                if user.password == password:
-                    return redirect(reverse("user:show"))
-            return render(request, "user/login.html", {"msg": "用户名或者密码错误！"})
+        user = User.objects.filter(username=username).first()
+        flag = check_password(password, user.password)
+        if flag:
+            request.session["username"] = username
+            return redirect(reverse("user:show"))
         else:
-            return render(request, "user/login.html", {"msg": "用户名或者密码不能为空！"})
+            return render(request, "user/login.html", {"msg": "用户名或者密码错误！"})
+    else:
+        return render(request, "user/login.html", {"msg": "用户名或者密码不能为空！"})
     return render(request, "user/login.html")
 
 
 def show(request):
-    users = User.objects.filter(is_delete=0).all()
+    users = User.objects.all()
     return render(request, "user/show.html", {"users": users})
 
 
@@ -69,7 +68,7 @@ def delete(request):
 
 
 def update(request):
-    if request.method=='POST':
+    if request.method == 'POST':
         id = request.POST.get('id')
         username = request.POST.get('username')
         phone = request.POST.get('phone')
@@ -95,3 +94,25 @@ def update(request):
             return render(request, "user/update.html", {"user": user})
         else:
             redirect(reverse("user:show"))
+
+
+def user_login(request):
+    return render(request, "user/user_login.html")
+
+
+def user_register(request):
+    return render(request, "user/user_register.html")
+
+
+def logout(request):
+    request.session.flush()
+    return render(request, "user/user_login.html")
+
+
+def is_login(request):
+    username = request.session.get("username")
+    user = User.objects.filter(username=username).first()
+    if user:
+        return JsonResponse({"username": username, "status": 200})
+    else:
+        return JsonResponse({"status": 456})

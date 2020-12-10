@@ -22,7 +22,7 @@ urlpatterns = [
     path('runoob/', views.runoob1, name="runoob"),
     path('ipRegister/', include('ipRegister.urls')),
     path('user/', include('user.urls', namespace='user')),
-    path('', views.index, name="index"),
+    path('index/', views.index, name="index"),
     # path('test2/', views.test2),
     path('testdb/', testdb.testdb),
     path('hr/', include('hr.urls')),
