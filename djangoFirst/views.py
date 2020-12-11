@@ -3,11 +3,6 @@ from django.http import HttpResponse
 import pymysql
 
 
-def runoob1(request):
-    views_list = ["菜鸟教程1", "菜鸟教程2", "菜鸟教程3"]
-    return render(request, "runoob.html", {"views_list": views_list})
-
-
 def index(request):
     return render(request, "index.html")
 
@@ -16,8 +11,9 @@ def home(request):
     return render(request, "home.html")
 
 
-def detail(request):
-    return render(request, "detail.html")
+def home_base(request):
+    return render(request, "home_base.html")
+
 
 
 # def test2(request):
