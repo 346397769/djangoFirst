@@ -41,7 +41,7 @@ def login(request):
         flag = check_password(password, user.password)
         if flag:
             request.session["username"] = username
-            return redirect(reverse("user:show"))
+            return redirect(reverse("home"))
         else:
             return render(request, "user/login.html", {"msg": "用户名或者密码错误！"})
     else:

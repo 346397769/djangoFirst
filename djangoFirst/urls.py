@@ -26,4 +26,5 @@ urlpatterns = [
     # path('test2/', views.test2),
     path('testdb/', testdb.testdb),
     path('hr/', include('hr.urls')),
+    path('home/', views.home, name="home"),
 ]

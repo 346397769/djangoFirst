@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bootstrap Dashboard</title>
+    <title>用户注册</title>
       {% load static %}
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -59,9 +59,9 @@
                 <label for="register-agree">I agree with the terms and policy</label>
               </div>
               <div class="form-group text-center">
-                <input id="register" type="submit" value="Register" class="btn btn-primary">
+                  <button class="btn btn-primary" id="register" type="submit">用户注册</button>
               </div>
-            </form><small>已经有账号了? </small><a href="login.html" class="signup">登录</a>
+            </form><small>已经有账号了? </small><a href="{% url 'user:user_login' %}" class="signup">登录</a>
           </div>
           <div class="copyrights text-center">
             <p>Design by Bootstrapious</p>
