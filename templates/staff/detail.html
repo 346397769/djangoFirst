@@ -1,155 +1,177 @@
-{% extends "base.html" %}
-{% block title %}
-    员工详情
-{% endblock %}
+{% extends "home_base.html" %}
+
 
 {% block body %}
 
     <div class="page-header" align="center">
         <h1>人力资源管理系统<small>------员工详情</small></h1>
     </div>
-    <form class="form-horizontal" action="{% url 'hr:update' %}" method="post">
-        {% csrf_token %}
-        <div class="form-group">
-            <label class="col-sm-2 control-label">姓名</label>
-            <div class="col-sm-6">
-                <input name="name" type="text" class="form-control" value="{{ staff.name }}" disabled="disabled">
-            </div>
+    <div class="row">
+        <div class="col-sm-3">
+            <img src="/media/{{ staff.head_img }}" height="140" width="140"
+                 alt="..."
+                 class="img-rounded">
         </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">身份证</label>
-            <div class="col-sm-6">
-                <input type="text" name="id_num" class="form-control" value="{{ staff.id_num }}" disabled="disabled">
-            </div>
-        </div>
-        <div class="form-group">
-            <label class="col-sm-2 control-label">性别</label>
-            {#            <select class="col-sm-6 form-control" name="sex" id="id_sex">#}
-            {#                <option value="-1">请选择</option>#}
-            {#                {% for sex in sexs %}#}
-            {#                    <option value={{ sex }}>{{ sex }}</option>#}
-            {#                {% endfor %}#}
-            {#                    未实现使用choices      待完善#}
-            {#            </select>#}
-            <div class="col-sm-6">
-                <select class="form-control" name="sex" disabled="disabled">
-                    <option value="0" {% if staff.sex.num == 0 %} selected="selected" {% endif %}>男</option>
-                    <option value="1" {% if staff.sex.num == 1 %} selected="selected" {% endif %}>女</option>
-                </select>
-            </div>
-            {#            <div class="col-sm-6">#}
-            {#                <input type="text" name="sex" class="form-control" value="{{ staff.sex }}">#}
-            {#            </div>#}
-        </div>
+        <div class="col-sm-8">
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">职业范围</label>
-            <div class="col-sm-6">
-                <select class="form-control" name="occupation" disabled="disabled">
-                    {% for occupation in occupations %}
-                        <option value="{{ occupation.num }}" {% if occupation.num == staff.occupation.num %}
-                                selected="selected" {% endif %}>{{ occupation.ocu_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            {#            <div class="col-sm-6">#}
-            {#                <input type="text" name="occupation" class="form-control" value="{{ staff.occupation }}">#}
-            {#            </div>#}
-        </div>
+            <table class="table table-bordered">
+                <tr>
+                    <td width="100">姓名</td>
+                    <td>{{ staff.name }}</td>
+                    <td width="100">职业范围</td>
+                    <td>{{ staff.occupation.ocu_name }}</td>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">资格证书编号</label>
-            <div class="col-sm-6">
-                <input type="text" name="credentials_no" class="form-control"
-                       value="{{ staff.credentials_no }}" disabled="disabled">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">手机号码</label>
-            <div class="col-sm-6">
-                <input type="tel" name="phone" class="form-control" value="{{ staff.phone }}" disabled="disabled">
-            </div>
-        </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">职业证书编号</label>
-            <div class="col-sm-6">
-                <input type="text" name="pro_no" class="form-control" value="{{ staff.pro_no }}" disabled="disabled">
-            </div>
-        </div>
+                </tr>
+                <tr>
+                    <td>性别</td>
+                    <td>{{ staff.sex.sex_name }}</td>
+                    <td>身份证</td>
+                    <td colspan="">{{ staff.id_num }}</td>
+                </tr>
+                <tr>
+                    <td>资格证号</td>
+                    <td>{{ staff.credentials_no }}</td>
+                    <td>手机</td>
+                    <td>{{ staff.phone }}</td>
+                </tr>
+                <tr>
+                    <td>职业证书</td>
+                    <td>{{ staff.pro_no }}</td>
+                    <td>管理职务</td>
+                    <td>{{ staff.manage_duty.manage_name }}</td>
+                </tr>
+                <tr>
+                    <td>专业职务</td>
+                    <td>{{ staff.pro_duty.pro_name }}</td>
+                    <td>出生日期</td>
+                    <td>{{ staff.birthday | date:'Y-m-d' }}</td>
+                </tr>
+                <tr>
+                    <td>部门</td>
+                    <td>{{ staff.department }}</td>
+                    <td>工作日期</td>
+                    <td>{{ staff.work_time_first | date:'Y-m-d' }}</td>
+                </tr>
+            </table>
 
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">管理职务</label>
-            <div class="col-sm-6">
-                <select class="form-control" name="manage_duty" disabled="disabled">
-                    {% for manage_duty in manageDuties %}
-                        <option value="{{ manage_duty.num }}" {% if manage_duty.num == staff.manage_duty.num %}
-                                selected="selected" {% endif %}>{{ manage_duty.manage_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            {#            <div class="col-sm-6">#}
-            {#                <input type="text" name="manage_duty" class="form-control" value="{{ staff.manage_duty }}">#}
-            {#            </div>#}
         </div>
-
-        <div class="form-group">
-            <label class="col-sm-2 control-label">专业职务</label>
-            <div class="col-sm-6">
-                <select class="form-control" name="pro_duty" disabled="disabled">
-                    {% for pro_duty in pro_duties %}
-                        <option value="{{ pro_duty.num }}" {% if pro_duty.num == staff.pro_duty.num %}
-                                selected="selected" {% endif %}>{{ pro_duty.pro_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            {#            <div class="col-sm-6">#}
-            {#                <input type="text" name="pro_duty" class="form-control" value="{{ staff.pro_duty }}">#}
-            {#            </div>#}
+        <div class="col-sm-1">
         </div>
+    </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">出生日期</label>
-            <div class="col-sm-6">
-                <input type="date" name="birthday" class="form-control" value="{{ staff.birthday | date:'Y-m-d' }}" disabled="disabled">
-            </div>
-        </div>
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">参加工作时间</label>
-            <div class="col-sm-6">
-                <input type="date" name="work_time_first" class="form-control"
-                       value="{{ staff.work_time_first | date:'Y-m-d' }}" disabled="disabled">
-            </div>
-        </div>
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">姓名</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <input name="name" type="text" class="form-control" value="{{ staff.name }}"#}
+    {#                   disabled="disabled">#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">身份证</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <input type="text" name="id_num" class="form-control" value="{{ staff.id_num }}" disabled="disabled">#}
+    {#        </div>#}
+    {#    </div>#}
+    {##}
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">性别</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <select class="form-control" name="sex" disabled="disabled">#}
+    {#                <option value="0" {% if staff.sex.id == 1 %} selected="selected" {% endif %}>男</option>#}
+    {#                <option value="1" {% if staff.sex.id == 2 %} selected="selected" {% endif %}>女</option>#}
+    {#            </select>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">职业范围</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <select class="form-control" name="occupation" disabled="disabled">#}
+    {#                {% for occupation in occupations %}#}
+    {#                    <option value="{{ occupation.id }}" {% if occupation.id == staff.occupation.id %}#}
+    {#                            selected="selected" {% endif %}>{{ occupation.ocu_name }}</option>#}
+    {#                {% endfor %}#}
+    {#            </select>#}
+    {#        </div>#}
+    {#    </div>#}
 
-        <div class="form-group">
-            <label class="col-sm-2 control-label">部门</label>
-            <div class="col-sm-6">
-                <select class="form-control" name="department" disabled="disabled">
-                    {% for department in departments %}
-                        <option value="{{ department.num }}" {% if department.num == staff.department.num %}
-                                selected="selected" {% endif %}>{{ department.department_name }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            {#            <div class="col-sm-6">#}
-            {#                <input type="text" name="department" class="form-control" value="{{ staff.department }}">#}
-            {#            </div>#}
-        </div>
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">资格证书编号</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <input type="text" name="credentials_no" class="form-control"#}
+    {#                   value="{{ staff.credentials_no }}" disabled="disabled">#}
+    {#        </div>#}
+    {#    </div>#}
 
-        <input id="sid" type="hidden" name="id" value="{{ staff.id }}">
-    </form>
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">手机号码</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <input type="tel" name="phone" class="form-control" value="{{ staff.phone }}" disabled="disabled">#}
+    {#        </div>#}
+    {#    </div>#}
+
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">职业证书编号</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <input type="text" name="pro_no" class="form-control" value="{{ staff.pro_no }}" disabled="disabled">#}
+    {#        </div>#}
+    {#    </div>#}
+
+
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">管理职务</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <select class="form-control" name="manage_duty" disabled="disabled">#}
+    {#                {% for manage_duty in manageDuties %}#}
+    {#                    <option value="{{ manage_duty.id }}" {% if manage_duty.id == staff.manage_duty.id %}#}
+    {#                            selected="selected" {% endif %}>{{ manage_duty.manage_name }}</option>#}
+    {#                {% endfor %}#}
+    {#            </select>#}
+    {#        </div>#}
+    {#    </div>#}
+
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">专业职务</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <select class="form-control" name="pro_duty" disabled="disabled">#}
+    {#                {% for pro_duty in pro_duties %}#}
+    {#                    <option value="{{ pro_duty.id }}" {% if pro_duty.id == staff.pro_duty.id %}#}
+    {#                            selected="selected" {% endif %}>{{ pro_duty.pro_name }}</option>#}
+    {#                {% endfor %}#}
+    {#            </select>#}
+    {#        </div>#}
+    {#    </div>#}
+
+    {#    <div class="form-group">#}
+    {#        <label class="col-sm-2 control-label">出生日期</label>#}
+    {#        <div class="col-sm-6">#}
+    {#            <input type="date" name="birthday" class="form-control" value="{{ staff.birthday | date:'Y-m-d' }}"#}
+    {#                   disabled="disabled">#}
+    {#        </div>#}
+    {#    </div>#}
+
+{#    <div class="form-group">#}
+{#        <label class="col-sm-2 control-label">参加工作时间</label>#}
+{#        <div class="col-sm-6">#}
+{#            <input type="date" name="work_time_first" class="form-control"#}
+{#                   value="{{ staff.work_time_first | date:'Y-m-d' }}" disabled="disabled">#}
+{#        </div>#}
+{#    </div>#}
+
+{#    <div class="form-group">#}
+{#        <label class="col-sm-2 control-label">部门</label>#}
+{#        <div class="col-sm-6">#}
+{#            <select class="form-control" name="department" disabled="disabled">#}
+{#                {% for department in departments %}#}
+{#                    <option value="{{ department.id }}" {% if department.id == staff.department.id %}#}
+{#                            selected="selected" {% endif %}>{{ department.department_name }}</option>#}
+{#                {% endfor %}#}
+{#            </select>#}
+{#        </div>#}
+{#    </div>#}
+
+    <input id="sid" type="hidden" name="id" value="{{ staff.id }}">
 {% endblock %}
-
 {% block myjs %}
-    <script>
-        {#var id = $('#uid').val();#}
-        {#var username = $('#username').val();#}
-        {#var phone = $('#phone').val();#}
-        {#var is_selected = $('#is_delete').val();#}
-        {#$.post("{% url 'user:update' %}",{})#}
-    </script>
 {% endblock %}

@@ -9,6 +9,7 @@ from django.db import models
 # 员工类
 class Staff(models.Model):
     name = models.CharField(max_length=12, null=False)
+    head_img = models.ImageField(upload_to="uploads/%Y/%m/%d/", null=True)
     # 身份证号
     id_num = models.CharField(max_length=20, null=False)
     sex = models.ForeignKey('Sex', on_delete=models.PROTECT)
@@ -59,8 +60,6 @@ class Occupation(models.Model):
 
 # 管理职务类 书记、院长、主任、护士长、副院长
 class ManageDuty(models.Model):
-    # 编码
-    num = models.IntegerField(null=False)
     # 管理职务：书记、院长、主任、护士长、副院长
     manage_name = models.CharField(max_length=20, null=False)
 
@@ -73,8 +72,6 @@ class ManageDuty(models.Model):
 
 # 专业职务类 主治医师、主任护士、主任医师、副主任医师
 class ProDuty(models.Model):
-    # 编码
-    num = models.IntegerField(null=False)
     # 专业职务：主治医师、主任护士、主任医师、副主任医师
     pro_name = models.CharField(max_length=20, null=False)
 
@@ -87,8 +84,6 @@ class ProDuty(models.Model):
 
 # 聘任职务类
 class AppointedDuty(models.Model):
-    # 编码
-    num = models.IntegerField(null=False)
     # 聘任职务：
     appointed_name = models.CharField(max_length=20, null=False)
 
@@ -101,8 +96,6 @@ class AppointedDuty(models.Model):
 
 # 部门类
 class Department(models.Model):
-    # 编码
-    num = models.IntegerField(null=False)
     # 聘任职务：
     department_name = models.CharField(max_length=20, null=False)
 
@@ -115,8 +108,6 @@ class Department(models.Model):
 
 # 性别类
 class Sex(models.Model):
-    # 编码
-    num = models.IntegerField(null=False)
     # 性别名称
     sex_name = models.CharField(max_length=20, null=False)
 

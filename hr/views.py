@@ -20,8 +20,6 @@ def search(request):
     else:
         staffs = Staff.objects.all()
     return render(request, "staff/show.html", {"staffs": staffs})
-    # ret = serializers.serialize("json", staffs)
-    # return JsonResponse({'staffs': ret})
 
 
 def update(request):
@@ -82,20 +80,21 @@ def add(request):
                        "pro_duties": pro_duties, "departments": departments})
 
     if request.method == 'POST':
+        file = request.FILES.get('file')
         name = request.POST.get('name')
         id_num = request.POST.get('id_num')
-        sex = Sex.objects.filter(num=request.POST.get('sex')).first()
-        occupation = Occupation.objects.filter(num=request.POST.get('occupation')).first()
+        sex = request.POST.get('sex')
+        occupation = request.POST.get('occupation')
         credentials_no = request.POST.get('credentials_no')
         phone = request.POST.get('phone')
         pro_no = request.POST.get('pro_no')
-        manage_duty = ManageDuty.objects.filter(num=request.POST.get('manage_duty')).first()
-        pro_duty = ProDuty.objects.filter(num=request.POST.get('pro_duty')).first()
+        manage_duty = request.POST.get('manage_duty')
+        pro_duty = request.POST.get('pro_duty')
         birthday = request.POST.get('birthday')
-        department = Department.objects.filter(num=request.POST.get('department')).first()
+        department = request.POST.get('department')
         work_time_first = request.POST.get('work_time_first')
-        Staff.objects.create(name=name, id_num=id_num, sex=sex, occupation=occupation,
+        Staff.objects.create(name=name, id_num=id_num, sex_id=sex, occupation_id=occupation,
                              credentials_no=credentials_no, phone=phone, pro_no=pro_no,
-                             birthday=birthday, manage_duty=manage_duty, pro_duty=pro_duty,
-                             department=department, work_time_first=work_time_first)
+                             birthday=birthday, manage_duty_id=manage_duty, pro_duty_id=pro_duty,
+                             department_id=department, work_time_first=work_time_first, head_img=file)
         return redirect(reverse("hr:show"))

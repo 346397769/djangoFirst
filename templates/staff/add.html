@@ -15,12 +15,18 @@
     <div class="page-header" align="center">
         <h1>人力资源管理系统<small>------员工新增</small></h1>
     </div>
-    <form class="form-horizontal" action="{% url 'hr:add' %}" method="post">
+    <form class="form-horizontal" enctype="multipart/form-data" action="{% url 'hr:add' %}" method="post">
         {% csrf_token %}
         <div class="form-group">
             <label class="col-sm-2 control-label">姓名</label>
             <div class="col-sm-6">
                 <input name="name" type="text" class="form-control">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label">头像</label>
+            <div class="col-sm-6">
+                <input name="file" type="file" class="form-control">
             </div>
         </div>
         <div class="form-group">
@@ -31,17 +37,10 @@
         </div>
         <div class="form-group">
             <label class="col-sm-2 control-label">性别</label>
-            {#            <select class="col-sm-6 form-control" name="sex" id="id_sex">#}
-            {#                <option value="-1">请选择</option>#}
-            {#                {% for sex in sexs %}#}
-            {#                    <option value={{ sex }}>{{ sex }}</option>#}
-            {#                {% endfor %}#}
-            {#                    未实现使用choices      待完善#}
-            {#            </select>#}
             <div class="col-sm-6">
                 <select class="form-control" name="sex">
-                    <option value="0">男</option>
-                    <option value="1">女</option>
+                    <option value="1">男</option>
+                    <option value="2">女</option>
                 </select>
             </div>
             {#            <div class="col-sm-6">#}
@@ -54,13 +53,10 @@
             <div class="col-sm-6">
                 <select class="form-control" name="occupation">
                     {% for occupation in occupations %}
-                        <option value="{{ occupation.num }}" >{{ occupation.ocu_name }}</option>
+                        <option value="{{ occupation.id }}">{{ occupation.ocu_name }}</option>
                     {% endfor %}
                 </select>
             </div>
-            {#            <div class="col-sm-6">#}
-            {#                <input type="text" name="occupation" class="form-control" value="{{ staff.occupation }}">#}
-            {#            </div>#}
         </div>
 
         <div class="form-group">
@@ -90,7 +86,7 @@
             <div class="col-sm-6">
                 <select class="form-control" name="manage_duty">
                     {% for manage_duty in manageDuties %}
-                        <option value="{{ manage_duty.num }}">{{ manage_duty.manage_name }}</option>
+                        <option value="{{ manage_duty.id }}">{{ manage_duty.manage_name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -104,7 +100,7 @@
             <div class="col-sm-6">
                 <select class="form-control" name="pro_duty">
                     {% for pro_duty in pro_duties %}
-                        <option value="{{ pro_duty.num }}">{{ pro_duty.pro_name }}</option>
+                        <option value="{{ pro_duty.id }}">{{ pro_duty.pro_name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -132,7 +128,7 @@
             <div class="col-sm-6">
                 <select class="form-control" name="department">
                     {% for department in departments %}
-                        <option value="{{ department.num }}">{{ department.department_name }}</option>
+                        <option value="{{ department.id }}">{{ department.department_name }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -141,7 +137,7 @@
             {#            </div>#}
         </div>
 
-{#        <input id="sid" type="hidden" name="id" value="{{ staff.id }}">#}
+        {#        <input id="sid" type="hidden" name="id" value="{{ staff.id }}">#}
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
                 <button id="btn_update" type="submit" class="btn btn-info">员工添加</button>
