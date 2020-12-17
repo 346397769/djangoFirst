@@ -134,8 +134,7 @@
 <!-- JavaScript files-->
 
 <!-- Main File-->
-{% block myjs %}
-{% endblock %}
+
 
 <script src="{% static '/vendor/popper.js/umd/popper.min.js' %}"></script>
 <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
@@ -147,5 +146,7 @@
 <script src="{% static 'js/charts-home.js' %}"></script>
 <!-- Main File-->
 <script src="{% static '/js/front.js' %}"></script>
+{% block myjs %}
+{% endblock %}
 </body>
 </html>

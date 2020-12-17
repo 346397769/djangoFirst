@@ -41,6 +41,7 @@ def login(request):
         flag = check_password(password, user.password)
         if flag:
             request.session["username"] = username
+            request.session.set_expiry(0)
             return redirect(reverse("home"))
         else:
             return render(request, "user/login.html", {"msg": "用户名或者密码错误！"})
@@ -106,6 +107,7 @@ def user_register(request):
 
 def logout(request):
     request.session.flush()
+    request.session.clear_expired()
     return render(request, "user/user_login.html")
 
 

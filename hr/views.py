@@ -1,3 +1,5 @@
+from queue import Queue
+
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.core import serializers
@@ -6,6 +8,8 @@ from django.core import serializers
 from django.urls import reverse
 
 from hr.models import Staff, Occupation, ManageDuty, ProDuty, Department, Sex
+
+# wait_delete_staff_icon_queue = Queue(maxsize=0)
 
 
 def show(request):
@@ -35,24 +39,22 @@ def update(request):
                       {"staff": staff, "occupations": occupations, "manageDuties": manage_duties,
                        "pro_duties": pro_duties, "departments": departments})
     if request.method == 'POST':
-        name = request.POST.get('name')
-        id_num = request.POST.get('id_num')
-        sex = Sex.objects.filter(num=request.POST.get('sex')).first()
-        occupation = Occupation.objects.filter(num=request.POST.get('occupation')).first()
-        credentials_no = request.POST.get('credentials_no')
-        phone = request.POST.get('phone')
-        pro_no = request.POST.get('pro_no')
-        manage_duty = ManageDuty.objects.filter(num=request.POST.get('manage_duty')).first()
-        pro_duty = ProDuty.objects.filter(num=request.POST.get('pro_duty')).first()
-        birthday = request.POST.get('birthday')
-        department = Department.objects.filter(num=request.POST.get('department')).first()
-        work_time_first = request.POST.get('work_time_first')
         staff_id = request.POST.get('id')
-        Staff.objects.filter(id=staff_id).update(name=name, id_num=id_num, sex=sex, occupation=occupation,
-                                                 credentials_no=credentials_no, phone=phone, pro_no=pro_no,
-                                                 birthday=birthday, manage_duty=manage_duty, pro_duty=pro_duty,
-                                                 department=department, work_time_first=work_time_first)
-        # Staff.objects.filter(id=staff_id).update(sex=sex)
+        staff = Staff.objects.get(pk=staff_id)
+        staff.name = request.POST.get('name')
+        staff.id_num = request.POST.get('id_num')
+        staff.sex_id = request.POST.get('sex')
+        staff.occupation_id = request.POST.get('occupation')
+        staff.credentials_no = request.POST.get('credentials_no')
+        staff.phone = request.POST.get('phone')
+        staff.pro_no = request.POST.get('pro_no')
+        staff.manage_duty_id = request.POST.get('manage_duty')
+        staff.pro_duty_id = request.POST.get('pro_duty')
+        staff.birthday = request.POST.get('birthday')
+        staff.department_id = request.POST.get('department')
+        staff.work_time_first = request.POST.get('work_time_first')
+        staff.staff_id = request.POST.get('id')
+        staff.save()
         return redirect(reverse("hr:show"))
 
 
@@ -98,3 +100,14 @@ def add(request):
                              birthday=birthday, manage_duty_id=manage_duty, pro_duty_id=pro_duty,
                              department_id=department, work_time_first=work_time_first, head_img=file)
         return redirect(reverse("hr:show"))
+
+
+def modify_icon(request):
+    staff_id = request.POST.get('id')
+    staff = Staff.objects.get(pk=staff_id)
+    file = request.FILES.get('file')
+    staff.head_img = file
+    staff.save()
+    # wait_delete_staff_icon_queue.put(staff.head_img.name)
+    # print(staff.head_img.name)
+    return JsonResponse({"status": 200, "img_src": staff.head_img.name})
