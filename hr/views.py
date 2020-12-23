@@ -7,9 +7,8 @@ from django.core import serializers
 # Create your views here.
 from django.urls import reverse
 
+from hr.clearFile import myThread1
 from hr.models import Staff, Occupation, ManageDuty, ProDuty, Department, Sex
-
-# wait_delete_staff_icon_queue = Queue(maxsize=0)
 
 
 def show(request):
@@ -106,8 +105,8 @@ def modify_icon(request):
     staff_id = request.POST.get('id')
     staff = Staff.objects.get(pk=staff_id)
     file = request.FILES.get('file')
+    if staff.head_img.name:
+        myThread1.wait_delete_staff_icon_queue.put("/media/"+staff.head_img.name)
     staff.head_img = file
     staff.save()
-    # wait_delete_staff_icon_queue.put(staff.head_img.name)
-    # print(staff.head_img.name)
     return JsonResponse({"status": 200, "img_src": staff.head_img.name})
