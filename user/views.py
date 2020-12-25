@@ -16,21 +16,18 @@ def register(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-        repassword = request.POST.get('repassword')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
         phone = request.POST.get('phone')
-        if username and password and repassword:
-            if password == repassword:
-                # 数据库添加用户
-                user = User()
-                user.username = username
-                user.password = hashlib.sha256(password.encode('utf-8')).hexdigest()
-                if phone:
-                    user.phone = phone
-                print(user)
-                user.save()
-                return HttpResponse('用户注册成功')
-            else:
-                return render(request, "user/register.html", {"msg": "密码不一致"})
+        # 数据库添加用户
+        user = User()
+        user.username = username
+        user.password = make_password(password)
+        user.phone = phone
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        return HttpResponse('用户注册成功')
 
 
 def login(request):

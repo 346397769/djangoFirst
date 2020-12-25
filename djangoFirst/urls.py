@@ -26,6 +26,6 @@ urlpatterns = [
     path('index/', views.index, name="index"),
     path('testdb/', testdb.testdb),
     path('hr/', include('hr.urls')),
-    path('home/', views.home, name="home"),
+    path('', views.home, name="home"),
     path('home_base/', views.home_base, name="home_base"),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
