@@ -38,7 +38,7 @@ def login(request):
         flag = check_password(password, user.password)
         if flag:
             request.session["username"] = username
-            request.session.set_expiry(0)
+            request.session.set_expiry(1800)
             return redirect(reverse("home"))
         else:
             return render(request, "user/login.html", {"msg": "用户名或者密码错误！"})
@@ -99,7 +99,23 @@ def user_login(request):
 
 
 def user_register(request):
-    return render(request, "user/user_register.html")
+    if request.method == 'GET':
+        return render(request, "user/user_register.html")
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        first_name = request.POST.get('first_name')
+        last_name = request.POST.get('last_name')
+        phone = request.POST.get('phone')
+        # 数据库添加用户
+        user = User()
+        user.username = username
+        user.password = make_password(password)
+        user.phone = phone
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        return HttpResponse('用户注册成功')
 
 
 def logout(request):
@@ -115,3 +131,12 @@ def is_login(request):
         return JsonResponse({"username": username, "status": 200})
     else:
         return JsonResponse({"status": 456})
+
+
+def checkuser(request):
+    username = request.GET.get("username")
+    user = User.objects.filter(username=username).first()
+    if user:
+        return JsonResponse({"status": 456})
+    else:
+        return JsonResponse({"status": 200})
